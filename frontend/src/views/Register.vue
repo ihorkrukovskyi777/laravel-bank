@@ -5,8 +5,13 @@
       <form @submit.prevent="handleRegister">
         <div class="space-y-4">
           <div>
-            <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-            <input v-model="form.name" type="text" id="name" required
+            <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+            <input v-model="form.first_name" type="text" id="first_name" required
+                   class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+          </div>
+          <div>
+            <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+            <input v-model="form.last_name" type="text" id="last_name" required
                    class="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
           </div>
           <div>
@@ -48,7 +53,8 @@ const authStore = useAuthStore()
 const router = useRouter()
 
 const form = ref({
-  name: '',
+  first_name: '',
+  last_name: '',
   email: '',
   password: '',
   password_confirmation: ''
