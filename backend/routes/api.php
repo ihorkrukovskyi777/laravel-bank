@@ -16,48 +16,38 @@ use App\Http\Controllers\Api\AccountController;
 |
 */
 
-// Публічні маршрути (без аутентифікації)
-Route::prefix('auth')->group(function () {
-    Route::post('register', [AuthController::class, 'register']);
-    Route::post('login', [AuthController::class, 'login']);
+// Public routes
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+
+// Protected routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('profile', [AuthController::class, 'profile']);
+    Route::put('profile', [AuthController::class, 'updateProfile']);
+    Route::put('password', [AuthController::class, 'changePassword']);
+
+    // Account routes
+    Route::get('accounts', [AccountController::class, 'index']);
+    Route::post('accounts', [AccountController::class, 'store']);
+    Route::get('accounts/{account}', [AccountController::class, 'show']);
+    Route::get('accounts/{account}/transactions', [AccountController::class, 'transactions']);
+    
+    // Account Types
+    Route::get('account-types', [AccountController::class, 'accountTypes']);
 });
 
-// Захищені маршрути (потребують аутентифікації)
-Route::middleware('auth:sanctum')->group(function () {
-    
-    // Аутентифікація
-    Route::prefix('auth')->group(function () {
-        Route::post('logout', [AuthController::class, 'logout']);
-        Route::post('refresh', [AuthController::class, 'refresh']);
-        Route::get('profile', [AuthController::class, 'profile']);
-        Route::put('profile', [AuthController::class, 'updateProfile']);
-        Route::post('change-password', [AuthController::class, 'changePassword']);
-    });
-
-    // Рахунки
-    Route::prefix('accounts')->group(function () {
-        Route::get('/', [AccountController::class, 'index']);
-        Route::post('/', [AccountController::class, 'store']);
-        Route::get('/types', [AccountController::class, 'accountTypes']);
-        Route::get('/{account}', [AccountController::class, 'show']);
-        Route::get('/{account}/transactions', [AccountController::class, 'transactions']);
-        Route::get('/{account}/balance', [AccountController::class, 'balance']);
-        Route::post('/{account}/block', [AccountController::class, 'block']);
-        Route::post('/{account}/unblock', [AccountController::class, 'unblock']);
-    });
-
-    // Тестовий маршрут для перевірки аутентифікації
-    Route::get('/user', function (Request $request) {
-        return response()->json([
-            'success' => true,
-            'message' => 'Authenticated successfully',
-            'data' => [
-                'user' => [
-                    'id' => $request->user()->id,
-                    'name' => $request->user()->full_name,
-                    'email' => $request->user()->email,
-                ]
+// Тестовий маршрут для перевірки аутентифікації
+Route::get('/user', function (Request $request) {
+    return response()->json([
+        'success' => true,
+        'message' => 'Authenticated successfully',
+        'data' => [
+            'user' => [
+                'id' => $request->user()->id,
+                'name' => $request->user()->full_name,
+                'email' => $request->user()->email,
             ]
-        ]);
-    });
+        ]
+    ]);
 }); 

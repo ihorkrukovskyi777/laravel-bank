@@ -18,24 +18,25 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function fetchUser() {
     if (token.value) {
+      apiClient.defaults.headers.common['Authorization'] = `Bearer ${token.value}`;
       try {
-        const response = await apiClient.get('/user')
-        setUser(response.data)
+        const response = await apiClient.get('/profile');
+        setUser(response.data.data.user);
       } catch (e) {
-        console.error('Failed to fetch user', e)
-        logout() // Вийти, якщо токен недійсний
+        console.error('Failed to fetch user', e);
+        logout(); // Logout if the token is invalid
       }
     }
   }
 
   async function register(credentials) {
-    const response = await apiClient.post('/auth/register', credentials)
+    const response = await apiClient.post('/register', credentials)
     setToken(response.data.data.token)
     setUser(response.data.data.user)
   }
 
   async function login(credentials) {
-    const response = await apiClient.post('/auth/login', credentials)
+    const response = await apiClient.post('/login', credentials)
     setToken(response.data.data.token)
     setUser(response.data.data.user)
   }
