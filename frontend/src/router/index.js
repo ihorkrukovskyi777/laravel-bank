@@ -5,6 +5,8 @@ import Login from '../views/Login.vue'
 import Dashboard from '../views/Dashboard.vue'
 import OpenAccount from '../views/OpenAccount.vue'
 import AccountDetails from '../views/AccountDetails.vue'
+import Transfer from '../views/Transfer.vue'
+import Deposit from '../views/Deposit.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const routes = [
@@ -39,6 +41,18 @@ const routes = [
     path: '/accounts/:id',
     name: 'account-details',
     component: AccountDetails,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/transfer',
+    name: 'transfer',
+    component: Transfer,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/deposit',
+    name: 'deposit',
+    component: Deposit,
     meta: { requiresAuth: true }
   },
   {

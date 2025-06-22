@@ -52,7 +52,48 @@ export const useAccountStore = defineStore('account', () => {
     }
   }
 
+  async function makeTransfer(transferData) {
+    isLoading.value = true;
+    error.value = null;
+    try {
+      const response = await apiClient.post('/transactions', transferData);
+      // Оновлюємо список рахунків, щоб відобразити новий баланс
+      await fetchAccounts();
+      return response.data;
+    } catch (err) {
+      console.error('Transfer failed', err);
+      if (err.response && err.response.data.message) {
+        error.value = err.response.data.message;
+      } else {
+        error.value = 'An unexpected error occurred during the transfer.';
+      }
+      throw err;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  async function makeDeposit(depositData) {
+    isLoading.value = true;
+    error.value = null;
+    try {
+      const response = await apiClient.post('/deposit', depositData);
+      await fetchAccounts(); // Refresh accounts to show updated balance
+      return response.data;
+    } catch (err) {
+      console.error('Deposit failed', err);
+      if (err.response && err.response.data.message) {
+        error.value = err.response.data.message;
+      } else {
+        error.value = 'An unexpected error occurred during the deposit.';
+      }
+      throw err;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   const totalAccounts = computed(() => accounts.value.length);
 
-  return { accounts, accountTypes, isLoading, error, fetchAccounts, fetchAccountTypes, createAccount, totalAccounts };
+  return { accounts, accountTypes, isLoading, error, fetchAccounts, fetchAccountTypes, createAccount, makeTransfer, makeDeposit, totalAccounts };
 }); 

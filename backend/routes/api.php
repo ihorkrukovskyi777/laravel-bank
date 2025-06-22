@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AccountController;
+use App\Http\Controllers\Api\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,10 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Account Types
     Route::get('account-types', [AccountController::class, 'accountTypes']);
+
+    // Transactions
+    Route::post('transactions', [TransactionController::class, 'store']);
+    Route::post('deposit', [TransactionController::class, 'deposit']);
 });
 
 // Тестовий маршрут для перевірки аутентифікації

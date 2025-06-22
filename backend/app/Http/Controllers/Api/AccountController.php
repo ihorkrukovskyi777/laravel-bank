@@ -83,9 +83,9 @@ class AccountController extends Controller
             'account_number' => $accountNumber,
             'iban' => $iban,
             'currency' => $request->currency,
-            'balance' => 0.00,
-            'available_balance' => 0.00,
-            'status' => 'pending',
+            'balance' => 1000.00,
+            'available_balance' => 1000.00,
+            'status' => 'active',
             'opened_at' => now(),
         ]);
 
