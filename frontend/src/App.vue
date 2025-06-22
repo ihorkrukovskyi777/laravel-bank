@@ -1,98 +1,27 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import { useAuthStore } from './stores/auth';
+import { RouterView } from 'vue-router'
 import { onMounted } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import AppHeader from '@/components/Header.vue';
 
-
-const authStore = useAuthStore()
-
-
-onMounted(async () => {
-  // При завантаженні додатка намагаємось отримати дані користувача,
-  // якщо є токен.
-  await authStore.fetchUser()
-})
+onMounted(() => {
+  const authStore = useAuthStore();
+  // Fetch user data if a token exists
+  if (localStorage.getItem('auth_token')) {
+    authStore.fetchUser();
+  }
+});
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <nav>
-        <template v-if="!authStore.user">
-          <RouterLink to="/login">Login</RouterLink>
-          <RouterLink to="/register">Register</RouterLink>
-        </template>
-        <template v-else>
-          <RouterLink to="/dashboard">Dashboard</RouterLink>
-          <a href="#" @click.prevent="authStore.logout(); $router.push('/login')">Logout</a>
-        </template>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <div class="min-h-screen bg-gray-100">
+    <AppHeader />
+    <main>
+      <RouterView />
+    </main>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
-}
+<style>
+/* Global styles if needed */
 </style>
