@@ -46,7 +46,7 @@ class TransactionController extends Controller
         }
 
         // 3. Sufficient Funds Check
-        if ($fromAccount->balance < $amount) {
+        if (bccomp((string) $fromAccount->balance, (string) $amount, 2) === -1) {
             return response()->json(['success' => false, 'message' => 'Insufficient funds.'], 422);
         }
         
@@ -135,10 +135,15 @@ class TransactionController extends Controller
 
                 // Create transaction record for the deposit
                 Transaction::create([
-                    'account_id' => $account->id,
+                    'to_account_id' => $account->id,
                     'transaction_type_id' => $depositTransactionType->id,
                     'amount' => $amount,
+                    'currency' => $account->currency,
+                    'fee_amount' => 0.00,
+                    'net_amount' => $amount,
+                    'status' => 'completed',
                     'description' => 'Account deposit',
+                    'reference_number' => 'DEP' . time() . $account->id,
                 ]);
             });
         } catch (\Exception $e) {
