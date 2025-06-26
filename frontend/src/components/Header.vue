@@ -24,6 +24,9 @@
               <RouterLink to="/dashboard" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Dashboard</RouterLink>
               <RouterLink to="/transfer" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Transfer</RouterLink>
               <RouterLink to="/deposit" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Deposit</RouterLink>
+              <RouterLink to="/transactions" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Transactions</RouterLink>
+              <RouterLink to="/statistics" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Statistics</RouterLink>
+              <RouterLink to="/profile" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Profile</RouterLink>
               <button @click="handleLogout" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50">Logout</button>
             </template>
           </div>

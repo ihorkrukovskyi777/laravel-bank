@@ -56,13 +56,31 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('@/views/Profile.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/about',
     name: 'about',
     // route level code-splitting
     // this generates a separate chunk (About.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import('../views/AboutView.vue')
-  }
+  },
+  {
+    path: '/transactions',
+    name: 'transactions',
+    component: () => import('@/views/TransactionHistory.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/statistics',
+    name: 'statistics',
+    component: () => import('@/views/Statistics.vue'),
+    meta: { requiresAuth: true },
+  },
 ]
 
 const router = createRouter({
